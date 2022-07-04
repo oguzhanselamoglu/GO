@@ -1,0 +1,1 @@
+go mod init gofirst.com/m/v2
