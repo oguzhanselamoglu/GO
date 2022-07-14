@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 )
 
 type User struct {
@@ -52,9 +53,17 @@ func addUser(c echo.Context) error {
 	fmt.Println(u)
 	return c.JSON(http.StatusCreated, u)
 }
+
+func mainAdmin(c echo.Context) error {
+
+	return c.String(http.StatusOK, "Admin")
+}
 func main() {
 	fmt.Println("Hello world")
 	server := echo.New()
+
+	adminGroup := server.Group("/admin", middleware.Logger())
+	adminGroup.GET("/main", mainAdmin)
 	server.GET("/main", mainHandler)
 	server.GET("/user/:data", userHandler)
 	server.POST("/user", addUser)
