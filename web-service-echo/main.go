@@ -61,8 +61,11 @@ func mainAdmin(c echo.Context) error {
 func main() {
 	fmt.Println("Hello world")
 	server := echo.New()
-
-	adminGroup := server.Group("/admin", middleware.Logger())
+	server.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "method=${method}, uri=${uri}, status=${status}\n",
+	}))
+	adminGroup := server.Group("/admin")
+	//adminGroup := server.Group("/admin", middleware.Logger())
 	adminGroup.GET("/main", mainAdmin)
 	server.GET("/main", mainHandler)
 	server.GET("/user/:data", userHandler)
