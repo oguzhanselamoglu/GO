@@ -12,9 +12,10 @@ We are going to use godotenv package to read the .env file. The .env file is use
 
 
 
-## Project Development
-# This project is divided into 4 parts to keep the code modular and clean.
+# Project Development
+ This project is divided into 4 parts to keep the code modular and clean.
 - middleware
 - models
 - router
+- main
 
