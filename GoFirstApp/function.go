@@ -51,6 +51,13 @@ func count2() (first func(), second func() int) {
 	return
 }
 
+func faktor(n int) int {
+	if n == 0 {
+		return 1
+	}
+	return n * faktor(n-1)
+}
+
 func main() {
 	t, c, b, d := islenler(8, 2)
 	_, e, _, _ := islenler(8, 2)
