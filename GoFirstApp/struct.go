@@ -8,6 +8,13 @@ type book struct {
 	page   int
 }
 
+type circle struct {
+	radius int
+}
+
+func (a *circle) area() int {
+	return a.radius * a.radius * 3
+}
 func main() {
 	fmt.Println(book{
 		name:   "Kuçük Ağa",
@@ -21,5 +28,8 @@ func main() {
 		page:   200,
 	}
 	fmt.Println(a.name)
+
+	b := circle{radius: 4}
+	fmt.Println(b.area())
 
 }
