@@ -15,4 +15,11 @@ func main() {
 		page:   100,
 	})
 
+	a := book{
+		name:   "Savaş ve Barış",
+		writer: "Tolstoy",
+		page:   200,
+	}
+	fmt.Println(a.name)
+
 }
