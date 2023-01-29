@@ -25,5 +25,7 @@ func post(w http.ResponseWriter, r *http.Request) {
 	id := vars["id"]
 	category := vars["category"]
 
-	w.Write([]byte("post page, post id:" + id + " category: " + category))
+	a := r.Method
+
+	w.Write([]byte("post page, post id:" + id + " category: " + category + " method : " + a))
 }
