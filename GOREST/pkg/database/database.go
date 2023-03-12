@@ -9,6 +9,7 @@ import (
 var db *sql.DB
 
 type User struct {
+	recId        string
 	firstName    string
 	lastName     string
 	email        string
@@ -33,6 +34,8 @@ func Database() {
 	}
 	//	addUser("oguzhan", "selamoglu", "oguzhan@kod.com.tr")
 
+	updateUser("3c67cf5e-c0d3-11ed-89d6-0242ac120003", "veli", "ali", "aaaa@aaa.com")
+
 	getUser()
 
 	fmt.Println(userList)
@@ -41,20 +44,28 @@ func Database() {
 	CheckError(err)
 
 }
+func updateUser(recId, firstname, lastname, email string) {
+	stmt, err := db.Prepare(`update "users" set firstname =$1, lastname = $2, email = $3 where recid = $4`)
+	CheckError(err)
+	_, err = stmt.Exec(firstname, lastname, email, recId)
+	CheckError(err)
+
+}
 
 var userList []User
 
 func getUser() {
-	rows, err := db.Query(`select firstname,lastname,email,role_id,enterprises_id,deleted,passive from "users"`)
+	rows, err := db.Query(`select recid,firstname,lastname,email,role_id,enterprises_id,deleted,passive from "users"`)
 	if err == nil {
 		for rows.Next() {
-			var firstname, lastname, email, roleId, enterpriseId string
+			var firstname, lastname, email, roleId, enterpriseId, recid string
 			var deleted, passive bool
 
-			err = rows.Scan(&firstname, &lastname, &email, &roleId, &enterpriseId, &deleted, &passive)
+			err = rows.Scan(&recid, &firstname, &lastname, &email, &roleId, &enterpriseId, &deleted, &passive)
 			CheckError(err)
 
 			userList = append(userList, User{
+				recId:        recid,
 				firstName:    firstname,
 				lastName:     lastname,
 				email:        email,
