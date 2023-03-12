@@ -8,6 +8,16 @@ import (
 
 var db *sql.DB
 
+type User struct {
+	firstName    string
+	lastName     string
+	email        string
+	roleId       string
+	enterpriseId string
+	deleted      bool
+	passive      bool
+}
+
 func Database() {
 	fmt.Println("Database")
 	var err error
@@ -21,25 +31,42 @@ func Database() {
 	if err = db.Ping(); err != nil {
 		panic(err)
 	}
-	addUser("oguzhan", "selamoglu", "oguzhan@kod.com.tr")
+	//	addUser("oguzhan", "selamoglu", "oguzhan@kod.com.tr")
 
-	rows, err := db.Query(`SELECT "firstname","lastname","email" FROM "users"`)
+	getUser()
+
+	fmt.Println(userList)
+	//defer rows.Close()
+
 	CheckError(err)
 
-	defer rows.Close()
-	for rows.Next() {
-		var firstname, lastname, email string
+}
 
-		err = rows.Scan(&firstname, &lastname, &email)
-		CheckError(err)
+var userList []User
 
-		fmt.Println(firstname)
-		fmt.Println(lastname)
-		fmt.Println(email)
+func getUser() {
+	rows, err := db.Query(`select firstname,lastname,email,role_id,enterprises_id,deleted,passive from "users"`)
+	if err == nil {
+		for rows.Next() {
+			var firstname, lastname, email, roleId, enterpriseId string
+			var deleted, passive bool
+
+			err = rows.Scan(&firstname, &lastname, &email, &roleId, &enterpriseId, &deleted, &passive)
+			CheckError(err)
+
+			userList = append(userList, User{
+				firstName:    firstname,
+				lastName:     lastname,
+				email:        email,
+				roleId:       roleId,
+				enterpriseId: "",
+				deleted:      deleted,
+				passive:      passive,
+			})
+
+		}
+		rows.Close()
 	}
-
-	CheckError(err)
-
 }
 func CheckError(err error) {
 	if err != nil {
