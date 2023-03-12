@@ -35,7 +35,7 @@ func Database() {
 	//	addUser("oguzhan", "selamoglu", "oguzhan@kod.com.tr")
 
 	updateUser("3c67cf5e-c0d3-11ed-89d6-0242ac120003", "veli", "ali", "aaaa@aaa.com")
-
+	deleteUser("4df3c7fa-c0d3-11ed-baf2-0242ac120003")
 	getUser()
 
 	fmt.Println(userList)
@@ -43,6 +43,12 @@ func Database() {
 
 	CheckError(err)
 
+}
+
+func deleteUser(recId string) {
+	stmt, err := db.Prepare(`delete from "users" where recid =$1 `)
+	CheckError(err)
+	_, err = stmt.Exec(recId)
 }
 func updateUser(recId, firstname, lastname, email string) {
 	stmt, err := db.Prepare(`update "users" set firstname =$1, lastname = $2, email = $3 where recid = $4`)
