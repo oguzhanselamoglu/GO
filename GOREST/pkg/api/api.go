@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/oguzhanselamoglu/gorest/pkg/database"
 	"log"
 	"net/http"
 )
@@ -163,4 +164,20 @@ func post(w http.ResponseWriter, r *http.Request) {
 	a := r.Method
 
 	w.Write([]byte("post page, post id:" + id + " category: " + category + " method : " + a))
+}
+
+func api_user(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.URL.Path)
+	w.Header().Set("Content-Type", "application/json")
+
+	j, err := json.Marshal(database.UserList)
+	CheckError(err)
+	fmt.Println(w, string(j))
+
+}
+
+func CheckError(err error) {
+	if err != nil {
+		panic(err)
+	}
 }

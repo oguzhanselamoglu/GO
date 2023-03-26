@@ -34,11 +34,11 @@ func Database() {
 	}
 	//	addUser("oguzhan", "selamoglu", "oguzhan@kod.com.tr")
 
-	updateUser("3c67cf5e-c0d3-11ed-89d6-0242ac120003", "veli", "ali", "aaaa@aaa.com")
-	deleteUser("4df3c7fa-c0d3-11ed-baf2-0242ac120003")
+	//updateUser("3c67cf5e-c0d3-11ed-89d6-0242ac120003", "veli", "ali", "aaaa@aaa.com")
+	//deleteUser("4df3c7fa-c0d3-11ed-baf2-0242ac120003")
 	getUser()
 
-	fmt.Println(userList)
+	fmt.Println(UserList)
 	//defer rows.Close()
 
 	CheckError(err)
@@ -56,9 +56,11 @@ func updateUser(recId, firstname, lastname, email string) {
 	_, err = stmt.Exec(firstname, lastname, email, recId)
 	CheckError(err)
 
+	fmt.Println("Kayıt silindi")
+
 }
 
-var userList []User
+var UserList []User
 
 func getUser() {
 	rows, err := db.Query(`select recid,firstname,lastname,email,role_id,enterprises_id,deleted,passive from "users"`)
@@ -70,7 +72,7 @@ func getUser() {
 			err = rows.Scan(&recid, &firstname, &lastname, &email, &roleId, &enterpriseId, &deleted, &passive)
 			CheckError(err)
 
-			userList = append(userList, User{
+			UserList = append(UserList, User{
 				recId:        recid,
 				firstName:    firstname,
 				lastName:     lastname,
